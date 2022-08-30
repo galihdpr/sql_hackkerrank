@@ -1,0 +1,6 @@
+/*
+if the instruction says 'round it up' choose ceil, not round. if round it down, choose floor
+*/
+
+select ceil(avg(salary)-avg(convert(replace(convert(salary,char),'0',''),decimal))) 
+from employees;

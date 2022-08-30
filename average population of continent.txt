@@ -1,0 +1,7 @@
+select cy.continent, floor(avg(ct.population))
+from city ct
+join country cy
+on ct.countrycode = cy.code
+group by cy.continent
+
+/*notice the instruction, it says 'round down'*/

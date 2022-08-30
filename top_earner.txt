@@ -1,0 +1,8 @@
+/*
+Enter your query here.
+*/
+select concat((select max(salary*months) from employee),"  ",(select count(name)
+                                                             from employee 
+                                                             where salary*months=(select
+                                                                                 max(salary*months)
+                                                                                 from employee)))

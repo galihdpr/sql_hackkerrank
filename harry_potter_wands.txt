@@ -1,0 +1,13 @@
+/*
+Enter your query here.
+Please append a semicolon ";" at the end of the query and enter your query in a single line to avoid error.
+*/
+select id, age, coins_needed, power
+from
+(select w.id, wp.age, w.coins_needed, w.power, min(w.coins_needed) over(partition by wp.age, w.power) as min_num
+from wands w
+join wands_property wp
+on w.code = wp.code
+where wp.is_evil = 0) as temp
+where coins_needed = min_num
+order by power desc, age desc

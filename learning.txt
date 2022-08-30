@@ -1,0 +1,15 @@
+/*
+Enter your query here.
+Please append a semicolon ";" at the end of the query and enter your query in a single line to avoid error.
+*/
+with 
+    b as ( select submission_date, s.hacker_id, count(distinct submission_id) as num_sub, name          
+from submissions as s join hackers as h on s.hacker_id = h.hacker_id group by submission_date, s.hacker_id, name ),
+    a as (select *, row_number() over (partition by submission_date order by num_sub desc,hacker_id) as rn from b) ,
+    c as ( select submission_date, hacker_id, num_sub, name from a where rn = 1),
+    c1 as (select distinct hacker_id, submission_date from submissions), 
+	d as ( select *, 
+	row_number() over(partition by hacker_id order by submission_date) as rnw , 
+	datediff (day,'2016-03-01', submission_date) + 1 as duration from c1) , 
+	e as ( select submission_date, count(hacker_id) as co from d where rnw = duration group by submission_date )
+select e.submission_date, e.co, c.hacker_id, name from e join c on e.submission_date = c.submission_date order by e.submission_date

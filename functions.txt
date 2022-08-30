@@ -1,0 +1,24 @@
+SELECT DISTINCT e1.X, e1.Y
+FROM
+    (
+        SELECT X, Y,
+            ROW_NUMBER() OVER (ORDER BY X) AS rn
+        FROM Functions
+    ) AS e1 
+JOIN (
+        SELECT X, Y,
+            ROW_NUMBER() OVER (ORDER BY X) AS rn
+        FROM Functions
+    ) AS e2
+/* X1 = Y2 */
+ON e1.X = e2.Y  
+    
+    /* X2 = Y1 */
+    AND e2.X = e1.Y 
+    /* not comparing with in the same row */ 
+    AND e1.rn != e2.rn
+    
+WHERE e1.X <= e1.Y
+
+ORDER BY e1.X
+;

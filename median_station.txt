@@ -1,0 +1,7 @@
+SELECT ROUND(AVG(LAT_N),4) 
+FROM (SELECT LAT_N, ROW_NUMBER()OVER(ORDER BY LAT_N ASC) AS ROWNUM FROM STATION)TEMP
+WHERE ROWNUM = (SELECT CASE 
+                            WHEN COUNT(ROWNUM)%2 > 0 THEN (COUNT(ROWNUM)+1)/2
+                            ELSE ROWNUM IN ((COUNT(ROWNUM)+1)/2, (COUNT(ROWNUM)+2)/2)
+                        END
+                FROM STATION);

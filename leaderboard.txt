@@ -1,0 +1,17 @@
+/*
+Enter your query here.
+*/
+select hacker_id, name
+from 
+(select sub.hacker_id, hack.name, count(sub.hacker_id) as total_full
+from submissions sub
+join challenges chal
+on sub.challenge_id = chal.challenge_id
+join difficulty diff
+on chal.difficulty_level = diff.difficulty_level
+join hackers hack
+on sub.hacker_id = hack.hacker_id
+where sub.score = diff.score 
+group by sub.hacker_id, hack.name) as temp
+where total_full >1
+order by total_full desc, hacker_id asc

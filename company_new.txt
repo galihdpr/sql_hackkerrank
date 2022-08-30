@@ -1,0 +1,10 @@
+/*
+we can implement multiple distinct in each aggregation
+*/
+select distinct comp.company_code, comp.founder, count(distinct emp.lead_manager_code), count(distinct emp.senior_manager_code), count(distinct emp.manager_code), count(distinct emp.employee_code)
+from employee emp
+join company comp
+on emp.company_code = comp.company_code
+group by comp.company_code, comp.founder
+order by comp.company_code
+

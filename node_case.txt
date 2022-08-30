@@ -1,0 +1,17 @@
+/*
+
+*/
+Select N,
+CASE 
+    WHEN P IS NULL then "Root"
+    WHEN N in (select P from bst) then "Inner"
+    else "Leaf"
+end as node
+from BST 
+order by N
+
+
+
+
+
+

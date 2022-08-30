@@ -1,0 +1,20 @@
+/*
+Enter your query here.
+Please append a semicolon ";" at the end of the query and enter your query in a single line to avoid error.
+*/
+with t1 as (select s.id as id,s.name as name,p.salary as salary
+from 
+students s
+join packages p on p.id = s.id),
+
+
+t2 as (
+select f.id as id, friend_id,p2.salary as salary
+from friends f
+join packages p2 on p2.id = f.friend_id)
+
+select t1.name
+from t1
+join t2 on t2.id = t1.id
+and t1.salary < t2.salary
+order by t2.salary
